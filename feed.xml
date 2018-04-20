@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2018-04-20T12:35:33+03:00</updated><id>/</id><title type="html">Your awesome title</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="/jekyll/update/2018/04/19/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2018-04-19T14:20:36+03:00</published><updated>2018-04-19T14:20:36+03:00</updated><id>/jekyll/update/2018/04/19/welcome-to-jekyll</id><content type="html" xml:base="/jekyll/update/2018/04/19/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+
+&lt;script id=&quot;dsq-count-scr&quot; src=&quot;//alexeydmitriev.disqus.com/count.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://alexeydmitriev.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</content><author><name></name></author><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="/jekyll/update/2018/04/19/android-stop.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2018-04-19T14:20:36+03:00</published><updated>2018-04-19T14:20:36+03:00</updated><id>/jekyll/update/2018/04/19/android-stop</id><content type="html" xml:base="/jekyll/update/2018/04/19/android-stop.html">&lt;h1 id=&quot;android-please-finally-disrank-and-abandon-findviewbyid-and-friends&quot;&gt;Android: please finally disrank and abandon &lt;code class=&quot;highlighter-rouge&quot;&gt;findViewById()&lt;/code&gt; and friends&lt;/h1&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;TL;DR Data binding and view model patterns are all in favor instead.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;It looks like even though Android’s data binding has been around for quite a lot of time, and the community has been quite hands-on with MVP / MVVM families of patters, people still tend to use &lt;code class=&quot;highlighter-rouge&quot;&gt;findViewById()&lt;/code&gt; – it is creeping through good libraries and articles.&lt;/p&gt;
+
+&lt;p&gt;And (funny), when Kotlin became wide-spread, there appeared articles which suggested dealing with &lt;code class=&quot;highlighter-rouge&quot;&gt;findViewById()&lt;/code&gt; in Kotlin way, for example:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;val nameTextView by lazy { view!!.findViewById&amp;lt;TextView&amp;gt;(R.id.nameTextView) }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;or by using delegates&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;val stateTextView: TextView by findView(this, R.id.stateTextView)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;There is Also&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;val details: TextView? by bindOptionalView(R.id.details)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;from KotterKnife&lt;/p&gt;
+
+&lt;p&gt;Even Kotlin Android Extensions, being a good library, take not an ideal direction:https://kotlinlang.org/docs/tutorials/android-plugin.html
+Generate code (which takes time).&lt;/p&gt;
+
+&lt;p&gt;Anko: https://www.kotlindevelopment.com/why-anko-layouts-dsl-better-xml/
+Not an option, mixing code and layout&lt;/p&gt;
+
+&lt;p&gt;I’ll explain why it’s not an optimal way, and how to become more efficient.&lt;/p&gt;
+
+&lt;p&gt;Disadvantages:&lt;/p&gt;
+
+&lt;h3 id=&quot;1-too-much-typing&quot;&gt;1. Too much typing&lt;/h3&gt;
+
+&lt;p&gt;You need to type IDs two times, in view and in presenter.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-coupling-between-view-and-code&quot;&gt;2. Coupling between view and code&lt;/h3&gt;
+
+&lt;p&gt;Field implementaion might change: toggle button to checkbox.&lt;/p&gt;
+
+&lt;p&gt;Say you replaced &lt;code class=&quot;highlighter-rouge&quot;&gt;RelativeLayout&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;CoordinatorLayout&lt;/code&gt;, now you need to make corresponding changes in code as well.&lt;/p&gt;
+
+&lt;p&gt;Say you changed color for checkmark.&lt;/p&gt;
+
+&lt;p&gt;Say you put a field in a container and want to control visibility by container, and not by field.&lt;/p&gt;
+
+&lt;h3 id=&quot;wastes-build-cycles-when-view-id-changes-in-view-layout&quot;&gt;Wastes build cycles when view ID changes in view layout&lt;/h3&gt;
+
+&lt;p&gt;View IDs in view layout must match those in code. How many times did you find yourself coming up with a better name for a view ID (and maybe also renaming some others, to keep naming consistent) and then rebuilding the app so that new IDs show up in code? And even in mid-size app that would be a lengthy cycle.&lt;/p&gt;
+
+&lt;p&gt;Say you’re a smart one and just type new ID w/o rebuilding, but how many minutes can you keep up w/o IntelliSense if writing code blindly?&lt;/p&gt;
+
+&lt;h3 id=&quot;3-wasting-build-time-to-generate-rjava&quot;&gt;3. Wasting build time to generate &lt;code class=&quot;highlighter-rouge&quot;&gt;R.java&lt;/code&gt;?&lt;/h3&gt;
+
+&lt;p&gt;That might sound… but data binding proc can take more time.&lt;/p&gt;
+
+&lt;h3 id=&quot;abuse-of-reactive-approach&quot;&gt;Abuse of reactive approach&lt;/h3&gt;
+
+&lt;p&gt;Reactive UI is almost a de-facto standard (will skip explanation, there are many good articles proving that), and &lt;code class=&quot;highlighter-rouge&quot;&gt;findViewById()&lt;/code&gt; gets in the way of that:
+with Reactive, we should say: ok, view, here are some streams (&lt;code class=&quot;highlighter-rouge&quot;&gt;Subject&lt;/code&gt;s), publish to those when user interaction happens. On the other side, you gotta listen to some of &lt;code class=&quot;highlighter-rouge&quot;&gt;Observable&lt;/code&gt;s and update yourself when we push new data to those.&lt;/p&gt;
+
+&lt;p&gt;But with &lt;code class=&quot;highlighter-rouge&quot;&gt;findViewById()&lt;/code&gt;, instead of trusting view with its responsibility (style itself, react on data changes, propagate user input), we reach out to it and then shake and harass it by getting through its internals: e.g., calling &lt;code class=&quot;highlighter-rouge&quot;&gt;setText()&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;setOnClickListener()&lt;/code&gt;, and (God save you) &lt;code class=&quot;highlighter-rouge&quot;&gt;setLayoutDimensionsTralala()&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;breach-of-encapsulation--exposes-view-implementation&quot;&gt;Breach of encapsulation / Exposes view implementation&lt;/h3&gt;
+
+&lt;p&gt;That relates to the previous point: instead of allowing view to do its job on its own, we make our app aware of view’s internal specifics.&lt;/p&gt;
+
+&lt;p&gt;Why should we know how to set view’s style, margins, paddings, etc.?
+Why should we know even how to set view’s text?
+Why should we know structure and naming of view event handlers?&lt;/p&gt;
+
+&lt;p&gt;Again, we should flip that and let the view be plugged in (as opposed to be controlled).&lt;/p&gt;
+
+&lt;h3 id=&quot;coupling-with-android-framework&quot;&gt;Coupling with Android framework&lt;/h3&gt;
+
+&lt;p&gt;Any framework is an implementation detail (refer to Clean Architecture), so whenever we developers can, we should stay decoupled from it.&lt;/p&gt;
+
+&lt;p&gt;Remember: framework is an entity outside boundaries of application logic.&lt;/p&gt;
+
+&lt;p&gt;Also, in theory, we should be able to swap one framework with another.
+Say I want a mobile web application: screen layout is almost the same, presentation logic is the same. Why can’t I port my code and compile it for web target? (Especially given that Kotlin compiles to JavaScript!)&lt;/p&gt;
+
+&lt;h3 id=&quot;easier-testing&quot;&gt;Easier testing&lt;/h3&gt;
+
+&lt;p&gt;instrumentation tests (on devices / emulators) are freaking slow. Even though you use Robolectic to test on JVM, it requires a lot of ceremony to spin up activities and views.&lt;/p&gt;
+
+&lt;p&gt;When using ViewModel, you can test against it, not against views.
+That shortens your TDD cycle a lot (you should do TDD; slow build and test times is also probably the main reason why TDD or just testing is abandoned for Android).&lt;/p&gt;
+
+&lt;p&gt;Testing against ViewModel as opposed to real views on screen (using Espresso, for example) are not mutually exclusive, you can still have your Espresso tests (and probably, you should), but key takeaway here is that you can have less (even much less) UI tests, because unit tests (those which test against ViewModel) would cover most of the cases.&lt;/p&gt;
+
+&lt;p&gt;Of course, there is always chance that somebody on team would not wire ViewModel to view 100% correct, but you can cover that with much fewer exploratory tests.&lt;/p&gt;
+
+&lt;p&gt;Maintaining and running UI tests is another (long and sometimes painful) story for a separate blog post.&lt;/p&gt;
+
+&lt;p&gt;So presenter dev cycle could look like:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;create a test (Spek) file for presenter&lt;/li&gt;
+  &lt;li&gt;write a non-compiling test so its assertion verifies against ViewModel&lt;/li&gt;
+  &lt;li&gt;create ViewModel class, add corresponding Field&lt;/li&gt;
+  &lt;li&gt;implement functionality in presenter so that test passes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Thus:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;you would be growing contract between view and presenter, step-by-step&lt;/li&gt;
+  &lt;li&gt;
+    &lt;h2 id=&quot;your-design-will-be-driven-by-tdd-which-mean-it-would-be-sufficient-and-clear&quot;&gt;your design will be driven by TDD, which mean it would be sufficient and clear&lt;/h2&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Recap:&lt;/p&gt;
+
+&lt;h5 id=&quot;we-use-view-viewmodel-to-establish-clear-contract-between-view-and-presenters&quot;&gt;We use view ViewModel to establish clear contract between View and presenters&lt;/h5&gt;
+
+&lt;h5 id=&quot;there-is-a-boundary-between-presenter-and-view-and-viewmodel-instance-is-an-embodiement-of-contract-transferred-across-it&quot;&gt;There is a boundary between Presenter and View, and ViewModel instance is an embodiement of contract transferred across it&lt;/h5&gt;
+
+&lt;h5 id=&quot;we-can-change-view-implementation-and-ultimately-even-reuse-viewmodel-and-presenter-for-different-platforms-since-kotlin-is-heading-that-way&quot;&gt;We can change view implementation and (ultimately) even reuse ViewModel and Presenter for different platforms (since Kotlin is heading that way)&lt;/h5&gt;
+
+&lt;h5 id=&quot;view-layout-is-decoupled-from-which-and-how-data-is-shown-on-screen&quot;&gt;View layout is decoupled from which and how data is shown on screen&lt;/h5&gt;
+
+&lt;h5 id=&quot;tests-do-not-require-android-instrumentation--fast&quot;&gt;Tests do not require Android instrumentation = fast&lt;/h5&gt;
+
+&lt;h5 id=&quot;dependency-inversion-principle-is-kept-view-is-dependent-on-view-model-so-that-dependency-points-inwards-compare-presenter-depends-on-view-type-dependency-points-outwards&quot;&gt;Dependency inversion principle is kept: view is dependent on view model, so that dependency points inwards; compare: presenter depends on view type, dependency points outwards&lt;/h5&gt;
+
+&lt;h5 id=&quot;view-implementaion-changes&quot;&gt;View implementaion changes&lt;/h5&gt;
+
+&lt;h5 id=&quot;decoupling-from-android-framework-shortens-your-tdd-cycle-since-during-those-cycles-android-framework-is-not-compiled&quot;&gt;Decoupling from Android framework shortens your TDD cycle since during those cycles Android framework is not compiled&lt;/h5&gt;
+
+&lt;script id=&quot;dsq-count-scr&quot; src=&quot;//alexeydmitriev.disqus.com/count.js&quot; async=&quot;&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;disqus_thread&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://alexeydmitriev.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href=&quot;https://disqus.com/?ref_noscript&quot;&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</content><author><name></name></author><summary type="html">Android: please finally disrank and abandon findViewById() and friends</summary></entry></feed>

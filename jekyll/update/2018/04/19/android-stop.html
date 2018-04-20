@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Welcome to Jekyll! | Your awesome title</title>
+<meta name="generator" content="Jekyll v3.7.3" />
+<meta property="og:title" content="Welcome to Jekyll!" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Android: please finally disrank and abandon findViewById() and friends" />
+<meta property="og:description" content="Android: please finally disrank and abandon findViewById() and friends" />
+<link rel="canonical" href="/jekyll/update/2018/04/19/android-stop.html" />
+<meta property="og:url" content="/jekyll/update/2018/04/19/android-stop.html" />
+<meta property="og:site_name" content="Your awesome title" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-04-19T14:20:36+03:00" />
+<script type="application/ld+json">
+{"description":"Android: please finally disrank and abandon findViewById() and friends","@type":"BlogPosting","url":"/jekyll/update/2018/04/19/android-stop.html","headline":"Welcome to Jekyll!","dateModified":"2018-04-19T14:20:36+03:00","datePublished":"2018-04-19T14:20:36+03:00","mainEntityOfPage":{"@type":"WebPage","@id":"/jekyll/update/2018/04/19/android-stop.html"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Your awesome title" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Your awesome title</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Welcome to Jekyll!</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-04-19T14:20:36+03:00" itemprop="datePublished">Apr 19, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="android-please-finally-disrank-and-abandon-findviewbyid-and-friends">Android: please finally disrank and abandon <code class="highlighter-rouge">findViewById()</code> and friends</h1>
+
+<blockquote>
+  <p>TL;DR Data binding and view model patterns are all in favor instead.</p>
+</blockquote>
+
+<p>It looks like even though Android’s data binding has been around for quite a lot of time, and the community has been quite hands-on with MVP / MVVM families of patters, people still tend to use <code class="highlighter-rouge">findViewById()</code> – it is creeping through good libraries and articles.</p>
+
+<p>And (funny), when Kotlin became wide-spread, there appeared articles which suggested dealing with <code class="highlighter-rouge">findViewById()</code> in Kotlin way, for example:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val nameTextView by lazy { view!!.findViewById&lt;TextView&gt;(R.id.nameTextView) }
+</code></pre></div></div>
+
+<p>or by using delegates</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val stateTextView: TextView by findView(this, R.id.stateTextView)
+</code></pre></div></div>
+
+<p>There is Also</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val details: TextView? by bindOptionalView(R.id.details)
+</code></pre></div></div>
+
+<p>from KotterKnife</p>
+
+<p>Even Kotlin Android Extensions, being a good library, take not an ideal direction:https://kotlinlang.org/docs/tutorials/android-plugin.html
+Generate code (which takes time).</p>
+
+<p>Anko: https://www.kotlindevelopment.com/why-anko-layouts-dsl-better-xml/
+Not an option, mixing code and layout</p>
+
+<p>I’ll explain why it’s not an optimal way, and how to become more efficient.</p>
+
+<p>Disadvantages:</p>
+
+<h3 id="1-too-much-typing">1. Too much typing</h3>
+
+<p>You need to type IDs two times, in view and in presenter.</p>
+
+<h3 id="2-coupling-between-view-and-code">2. Coupling between view and code</h3>
+
+<p>Field implementaion might change: toggle button to checkbox.</p>
+
+<p>Say you replaced <code class="highlighter-rouge">RelativeLayout</code> with <code class="highlighter-rouge">CoordinatorLayout</code>, now you need to make corresponding changes in code as well.</p>
+
+<p>Say you changed color for checkmark.</p>
+
+<p>Say you put a field in a container and want to control visibility by container, and not by field.</p>
+
+<h3 id="wastes-build-cycles-when-view-id-changes-in-view-layout">Wastes build cycles when view ID changes in view layout</h3>
+
+<p>View IDs in view layout must match those in code. How many times did you find yourself coming up with a better name for a view ID (and maybe also renaming some others, to keep naming consistent) and then rebuilding the app so that new IDs show up in code? And even in mid-size app that would be a lengthy cycle.</p>
+
+<p>Say you’re a smart one and just type new ID w/o rebuilding, but how many minutes can you keep up w/o IntelliSense if writing code blindly?</p>
+
+<h3 id="3-wasting-build-time-to-generate-rjava">3. Wasting build time to generate <code class="highlighter-rouge">R.java</code>?</h3>
+
+<p>That might sound… but data binding proc can take more time.</p>
+
+<h3 id="abuse-of-reactive-approach">Abuse of reactive approach</h3>
+
+<p>Reactive UI is almost a de-facto standard (will skip explanation, there are many good articles proving that), and <code class="highlighter-rouge">findViewById()</code> gets in the way of that:
+with Reactive, we should say: ok, view, here are some streams (<code class="highlighter-rouge">Subject</code>s), publish to those when user interaction happens. On the other side, you gotta listen to some of <code class="highlighter-rouge">Observable</code>s and update yourself when we push new data to those.</p>
+
+<p>But with <code class="highlighter-rouge">findViewById()</code>, instead of trusting view with its responsibility (style itself, react on data changes, propagate user input), we reach out to it and then shake and harass it by getting through its internals: e.g., calling <code class="highlighter-rouge">setText()</code>, <code class="highlighter-rouge">setOnClickListener()</code>, and (God save you) <code class="highlighter-rouge">setLayoutDimensionsTralala()</code>.</p>
+
+<h3 id="breach-of-encapsulation--exposes-view-implementation">Breach of encapsulation / Exposes view implementation</h3>
+
+<p>That relates to the previous point: instead of allowing view to do its job on its own, we make our app aware of view’s internal specifics.</p>
+
+<p>Why should we know how to set view’s style, margins, paddings, etc.?
+Why should we know even how to set view’s text?
+Why should we know structure and naming of view event handlers?</p>
+
+<p>Again, we should flip that and let the view be plugged in (as opposed to be controlled).</p>
+
+<h3 id="coupling-with-android-framework">Coupling with Android framework</h3>
+
+<p>Any framework is an implementation detail (refer to Clean Architecture), so whenever we developers can, we should stay decoupled from it.</p>
+
+<p>Remember: framework is an entity outside boundaries of application logic.</p>
+
+<p>Also, in theory, we should be able to swap one framework with another.
+Say I want a mobile web application: screen layout is almost the same, presentation logic is the same. Why can’t I port my code and compile it for web target? (Especially given that Kotlin compiles to JavaScript!)</p>
+
+<h3 id="easier-testing">Easier testing</h3>
+
+<p>instrumentation tests (on devices / emulators) are freaking slow. Even though you use Robolectic to test on JVM, it requires a lot of ceremony to spin up activities and views.</p>
+
+<p>When using ViewModel, you can test against it, not against views.
+That shortens your TDD cycle a lot (you should do TDD; slow build and test times is also probably the main reason why TDD or just testing is abandoned for Android).</p>
+
+<p>Testing against ViewModel as opposed to real views on screen (using Espresso, for example) are not mutually exclusive, you can still have your Espresso tests (and probably, you should), but key takeaway here is that you can have less (even much less) UI tests, because unit tests (those which test against ViewModel) would cover most of the cases.</p>
+
+<p>Of course, there is always chance that somebody on team would not wire ViewModel to view 100% correct, but you can cover that with much fewer exploratory tests.</p>
+
+<p>Maintaining and running UI tests is another (long and sometimes painful) story for a separate blog post.</p>
+
+<p>So presenter dev cycle could look like:</p>
+<ul>
+  <li>create a test (Spek) file for presenter</li>
+  <li>write a non-compiling test so its assertion verifies against ViewModel</li>
+  <li>create ViewModel class, add corresponding Field</li>
+  <li>implement functionality in presenter so that test passes</li>
+</ul>
+
+<p>Thus:</p>
+<ul>
+  <li>you would be growing contract between view and presenter, step-by-step</li>
+  <li>
+    <h2 id="your-design-will-be-driven-by-tdd-which-mean-it-would-be-sufficient-and-clear">your design will be driven by TDD, which mean it would be sufficient and clear</h2>
+  </li>
+</ul>
+
+<p>Recap:</p>
+
+<h5 id="we-use-view-viewmodel-to-establish-clear-contract-between-view-and-presenters">We use view ViewModel to establish clear contract between View and presenters</h5>
+
+<h5 id="there-is-a-boundary-between-presenter-and-view-and-viewmodel-instance-is-an-embodiement-of-contract-transferred-across-it">There is a boundary between Presenter and View, and ViewModel instance is an embodiement of contract transferred across it</h5>
+
+<h5 id="we-can-change-view-implementation-and-ultimately-even-reuse-viewmodel-and-presenter-for-different-platforms-since-kotlin-is-heading-that-way">We can change view implementation and (ultimately) even reuse ViewModel and Presenter for different platforms (since Kotlin is heading that way)</h5>
+
+<h5 id="view-layout-is-decoupled-from-which-and-how-data-is-shown-on-screen">View layout is decoupled from which and how data is shown on screen</h5>
+
+<h5 id="tests-do-not-require-android-instrumentation--fast">Tests do not require Android instrumentation = fast</h5>
+
+<h5 id="dependency-inversion-principle-is-kept-view-is-dependent-on-view-model-so-that-dependency-points-inwards-compare-presenter-depends-on-view-type-dependency-points-outwards">Dependency inversion principle is kept: view is dependent on view model, so that dependency points inwards; compare: presenter depends on view type, dependency points outwards</h5>
+
+<h5 id="view-implementaion-changes">View implementaion changes</h5>
+
+<h5 id="decoupling-from-android-framework-shortens-your-tdd-cycle-since-during-those-cycles-android-framework-is-not-compiled">Decoupling from Android framework shortens your TDD cycle since during those cycles Android framework is not compiled</h5>
+
+<script id="dsq-count-scr" src="//alexeydmitriev.disqus.com/count.js" async=""></script>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://alexeydmitriev.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  </div><a class="u-url" href="/jekyll/update/2018/04/19/android-stop.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Your awesome title</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Your awesome title</li><li><a class="u-email" href="mailto:your-email@example.com">your-email@example.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/jekyll"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jekyll</span></a></li><li><a href="https://www.twitter.com/jekyllrb"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">jekyllrb</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

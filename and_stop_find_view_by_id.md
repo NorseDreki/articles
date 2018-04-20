@@ -5,6 +5,33 @@ Android: please finally disrank and abandon `findViewById()` and friends
 
 It looks like even though Android's data binding has been around for quite a lot of time, and the community has been quite hands-on with MVP / MVVM families of patters, people still tend to use `findViewById()` -- it is creeping through good libraries and articles.
 
+And (funny), when Kotlin became wide-spread, there appeared articles which suggested dealing with `findViewById()` in Kotlin way, for example:
+
+```
+val nameTextView by lazy { view!!.findViewById<TextView>(R.id.nameTextView) }
+```
+
+or by using delegates
+
+```
+val stateTextView: TextView by findView(this, R.id.stateTextView)
+```
+
+There is Also
+
+```
+val details: TextView? by bindOptionalView(R.id.details)
+```
+
+from KotterKnife
+
+Even Kotlin Android Extensions, being a good library, take not an ideal direction:https://kotlinlang.org/docs/tutorials/android-plugin.html
+Generate code (which takes time).
+
+Anko: https://www.kotlindevelopment.com/why-anko-layouts-dsl-better-xml/
+Not an option, mixing code and layout
+
+
 I'll explain why it's not an optimal way, and how to become more efficient.
 
 Disadvantages:
