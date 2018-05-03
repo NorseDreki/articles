@@ -1,118 +1,87 @@
-Android Don'ts: please finally abandon `findViewById()` and its pals as it breaches encapsulation
+Android Don't: please finally abandon `findViewById()` and its pals as it breaches encapsulation
 =======
 
->TL;DR Manipulating widgets directly is a bad practice as it creates tight coupling between presentation code and screen layout. Consider using Android data binding and the ViewModel pattern instead.
+>TL;DR Manipulating widgets directly is a bad habit as it breaches encapsulation and creates a tight coupling between presentation code and view layout declaration. Consider using the ViewModel pattern instead, backed by the Android Data Binding library.
 
-_This article opens a series of articles about showing how to derive an efficient presentation + layout view set of patterns (MVx), based on existing known approaches. I'll show how this is suited to be used for any size and type of project (this is a scalable thing, very lean and based on principles of Clean Architecture).
-We will be using "from the contrary" approach and show how to find a solution by deliberately putting ourselves into boundaries we want to have -- and how those boundaries help us to see that solution._
+_This article opens a series in which we'll be deriving an efficient set of patterns related to view layout and presentation code. Armed with good parts of MVx patterns, Clean Architecture, Separation Of Concerns, Reactive Programming, we'll shape them up to be suitable for day-to-day screen development routine, regardless of size of application. We'll be staying lean, but be doing the right thing, not just the quickest thing possible._
 
-It looks like quite many developers are still using `findViewById()` (or its variations), despite Android data binding being mature for quite a while, and despite number of articles written on the MVVM pattern (which is the main beneficiary of data binding).
+It seems many developers keep using `findViewById()` (or its variations), despite popularity of the ViewModel pattern and maturity of the [Android Data Binding library](https://developer.android.com/topic/libraries/data-binding/).
 
-For example, `findViewById()` is seen leveraged even by features of the Kotlin language:
+My guess it's because `findViewById()` is an easy thing to get in touch with: it spreads across the official documentation and open source repos. Also, articles highlighting trendy Kotlin features give it a shot as well, for example:
 
 ```Kotlin
 val nameTextView by lazy { view!!.findViewById<TextView>(R.id.nameTextView) }
 ```
-
-or
-
-```Kotlin
-val stateTextView: TextView by findView(this, R.id.stateTextView)
-```
-
 or
 
 ```Kotlin
 val details: TextView? by bindOptionalView(R.id.details)
 ```
+Even the official library, [Kotlin Android Extensions](https://kotlinlang.org/docs/tutorials/android-plugin.html), took effort implementing code generation: widgets become available in Activity's scope without direct calls to `findViewById()`.
 
-Even Kotlin's official library, [Kotlin Android Extensions](https://kotlinlang.org/docs/tutorials/android-plugin.html), took some effort to implement code generation so that widgets are avaialble in Activity's scope w/o calling `findViewById()` directly.
+Even though nice language features and well-made libraries do make life easier, there are problems in the foundation of `findViewById()` itself.
 
-_In this article I'll explain why using `findViewById()` is a bad practice and also why widget binding provided by 3rd party libraries would not be an efficient solution._
+## Problems
 
-So, problems with the approaches mentioned above are:
+#### Tight coupling between view layout and presentation code
 
-### Tight coupling between presentation code and view layout
+Examples:
+- Creating widget IDs in view layout and referencing them in presentation code -- coupling by IDs.
+- Specifying widget types when declaring variables in presentation code.
 
-It is coupled by:
-- creating widget IDs in view layout and then referencing them in presentation code
-- specifying widget types in presentation code
-- presentation code knows about structure of layout
-- altering widget's style from presentation code
+  * Say you've changed widget type from `CheckBox` to `ToggleButton` or replaced `RelativeLayout` with `CoordinatorLayout`, now presentation code should be updated as well.
 
-Field implementaion might change: toggle button to checkbox.
+- Presentation code knows view layout structure and how widgets are nested within container.
 
-Say you replaced `RelativeLayout` with `CoordinatorLayout`, now you need to make corresponding changes in code as well.
+  * Say you've wrapped a widget with a container and now want to control visibility by that container -- presentation code should not call `setVisibility()` on the widget anymore.
 
-Say you changed color for checkmark.
+- Widgets' look and feel is manipulated by presentation code, although most of the time it's possible to set those in XML.
 
-Say you put a field in a container and want to control visibility by container, and not by field.
+- Sometimes view layout might hold reference back to presentation code, thus making two-way coupling.
 
-In some cases view might hold reference back to activity / presentation code causing a memory leak
+- ...list goes on.
 
-Mixing declarative style (layout declaration) and imperative style (code)
+On top of that, there is coupling between two different types of code: view layout is _declarative_ (it says _what_ widgets should be in layout and doesn't say _how_ that should be achieved), and presentation code is _imperative_ (it says _how_ widgets should be manipulated, step-by-step; and _what_ is not very clear, through those steps).
 
-View layout is decoupled from which and how data is shown on screen
-What vs how
+#### Breach of view layout encapsulation
 
-### Breach of view layout encapsulation
+A continuation of the previous one.
 
-A follow-up for the previous one.
+Widget IDs, widget types, styles applied, structure of nesting, widget attribute and method names -- these are implementation details of view layout.
 
-Widget IDs, widget types, styles applied, structure of nesting, widget attribute and method names -- all of them are implementaion details of a view (screen).
-
-Reaching out to a particular widget (by using `findViewById()` or anything else) opens that gate for juggling view implementation details.
+`findViewById()` is nothing more but a way to break into view layout, get knowledge about its internal structure and start manipulating it based on that knowledge.
 
 *This is breach of [encapsulation](https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)), one of the core principles in OOP.*
 
-Instead of doing this, we should allow view to do its job on its own, guaranteeing that we won't be controlling it imperatively. How? For example, by handing a ViewModel to a view, so that view would _react_ to changes in ViewModel and would update _itself_ accordingly.
+Instead, we should allow view layout to do its job, treating it as an obscure entity with its own responsibility, guaranteeing no micro-management from presentation code.
 
-### Staying imperative instead of reactive
+#### Staying imperative instead of following Reactive Programming
 
-When reaching out to a particular widget and calling its method so change text or set click listener, it is imperative (directly micro-managing what others should do).
+Telling widget to set text, change color, change layout parameters, assigning click listener is imperative.
 
-When providing ViewModel so that view wires to interested streams of data on its own and also pushes to other streams upon user interaction, it is **reactive**.
+Cases when view layout manipulates presentation code by directly calling its methods in it, are imperative, too.
 
-Since reactive programming has gained a lot of traction, won't spend time explaining why it is superior to staying imperative.
+By Reactive Programming, we should rely on streams of data instead. Interested parties (presentation code, view layout) can subscribe to relevant sources and _react_ to data in those streams according to their responsibilities.
 
-### Burden when matching changed widget IDs in presentation code
+#### Coupling to the Android framework
 
-This might seem like a small thing at first, but it was very annoying (at least for me), especially in bigger projects.
+Since presentation code knows about `findViewById()`, widget types, widget method names, ..., it stays coupled to the Android framework, because these features belong to it.
 
-Say you've created a draft layout for a screen, compiled project (so that widget IDs are visible in code) and wrote some presentation code which acts upon those widgets.
+But to quote a statement from [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html):
 
-Then you add just one new widget to layout and want to write presentation code for it (since you've got some ideas you'd better code write away until they vanish) -- you need to wait project to compile so that IDs show up in code.
+>Independent of Frameworks. The architecture does not depend on the existence of some library of feature laden software. This allows you to use such frameworks as tools, rather than having to cram your system into their limited constraints.
 
-Or being in the middle of presentation code you've come up with some better names for widgets, you change names right away... and wait... wait... for compilation... to complete.
-
-And even for medium-sized project these compilation cycles stack up and eat away a noticeable junk of precios development time (not to mention it's quite boring to wait).
-
-### Coupling to Android framework
-
-Any framework is an implementation detail (refer to Clean Architecture), so whenever we developers can, we should stay decoupled from it.
-
-Remember: framework is an entity outside boundaries of application logic.
-
-Also, in theory, we should be able to swap one framework with another.
-Say I want a mobile web application: screen layout is almost the same, presentation logic is the same. Why can't I port my code and compile it for web target? (Especially given that Kotlin compiles to JavaScript!)
+Also, the "Independent of Frameworks" thing is important because we'd want more code to be reused for different platforms: iOS, mobile Web (this would be the topic for other series of articles, but to give a clue, Kotlin/Native is heading in that direction).
 
 ## Solution
 
-A way to go would be to create an abstract view using the ViewModel pattern. This decouples presentation code from screen layout so that both evolve independently. All changes your presentation code wants to do with view it does with ViewModel, and Android data binding makes sure those changes are propagated to the view.
+_(I've stripped off comparison of solutions because I'd like to shift focus to importance of Clean Architecture and Separation Of Concerns. This solution does conform to both, being its main virtue. If you feel other approaches might have been considered, let's discuss that in comments.)_
 
-Example of how a corresponding ViewModel would look like:
+What is something simple which separates presentation code from implementation detail of view layout? What is something view-like (meaning it has data to be displayed on screen) but generic enough not to bind presentation code to widget types, etc.? Sounds like the ViewModel pattern.
 
-```Kotlin
-class VenueViewModel {
-    val image = ObservableField<String>()
-    val name = ObservableField<String>()
-    val location = ObservableField<String>()
+_(We will take a closer look at ViewModel and its relations in a separate article, only an introduction is given here.)_
 
-    val onClicked = PublishSubject.create<View>()
-}
-```
-
-Example of how view layout would look like w/o IDs:
+This is an example how view layout would look like, without widget IDs, but with a ViewModel attached (please make sure you are familiar with the [Android Data Binding library](https://developer.android.com/topic/libraries/data-binding/)):
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -131,7 +100,6 @@ Example of how view layout would look like w/o IDs:
 
         <ImageView
             ...
-            bind:placeholder="@{@drawable/ic_placeholder_24dp}"
             bind:src="@{viewModel.image}"/>
 
         <TextView
@@ -147,75 +115,105 @@ Example of how view layout would look like w/o IDs:
 </layout>
 ```
 
-Then somewhere in your presentation code (we'll talk about patterns of presentation code in other articles)
+Suppose, we decided to update this layout to:
 
-```Kotlin
-viewModel.location.set(userLocation.lastSeen())
-...
-viewModel.onClicked.takeUntil().subscribe { ... }
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.VenueViewModel"/>
+    </data>
+
+    <TextView
+        ...
+        android:text='@{viewModel.name + ", " + viewModel.location}'
+        bind:drawableStart="@{viewModel.image}"
+        bind:onClick="@{viewModel.onClicked}"/>
+
+</layout>
 ```
 
-## Benefits of this solution:
+The change was done with ease, without touching presentation code at all and even without recompilation. And the latter might not look like a big deal, but in a project with many dozens of screens it does save _a lot_ of time.
 
-- **No more clutter for view layout code**
+Then, contents of the corresponding ViewModel:
+```Kotlin
+class VenueViewModel {
+    val image = ObservableField<String>()
+    val name = ObservableField<String>()
+    val location = ObservableField<String>()
 
-How many times did you find yourself doing some part of view styling and layout in XML and other part -- in Kotlin / Java code? Over times, as screen becomes more complex, it is often takes some (significant) time to find where a particular style is applied (say you hunting a bug): you need to go through XML and several source code files.
+    val onClicked = PublishSubject.create<View>()
+}
+```
+Now your presentation code is completely decoupled from view layout:
+```Kotlin
+//to propagate changes to view
+viewModel.location.set(lastSeen)
+...
+//to react to user input
+viewModel.onClicked.subscribe { navigateElsewhere() }
+```
 
-Also, view layout in XML is _declarative_, whereas things such as `locationTextView.setText()` are _imperative_: thus one type of job (view layout) is done in two ways, adding to a pile of confusion. It's better to choose just one way and be consistent with it.
+_Both ViewModel and presentation code is simplified, many details are omitted -- this will be covered in upcoming articles._
 
-And yes, declarative is always better than imperative.
+## Benefits of the solution
 
-- **Developers can work in parallel without interfering each other**
+#### View-related code is not scattered
 
-One developer can be changing look and feel of a screen (say to match design updates), whereas another one can be fixing a bug in presentation code for that same screen.
+How many times did you find yourself doing part of view styling and layout in XML and other part -- in Kotlin (Java) code? As screen becomes more complex, it might take significant time to find where a particular style is applied: you need to go through XML and several source code files.
 
-When both of them submit their pull requests (you do use pull requests, don't you?), there will be no conflicts between them. Also, these developers won't spend time waiting on each other or asking which lines are safe to change.
+The ViewModel pattern forces you to shift view-related code to view, since presentation code no longer has a direct reference to view layout.
 
-And experienced teams know how much time can be saved avoiding that extra coordination.
+As a positive side effect of this we have clear separation between two types of code: view layout is _declarative_, presentation code is _imperative_.
 
-- **Much easier testing**
+#### Developers can work in parallel without interfering each other
 
-Testing on Android is still hard, also because launching instrumentation tests against UI is very, very slow. This seems a primary reason why many teams give up TDD or even doing testing at all.
+One developer can be updating look and feel of a screen, whereas another one can be fixing a bug in presentation code for that same screen, at the same time.
 
-With the solution proposed, you can be testing against ViewModel instead. That would allow to run tests much faster (since no emulator is involved), thus enabling TDD.
+When both of them submit their pull requests, there will be no conflicts between them. Also, these developers won't spend time waiting on each other or asking each other which lines are safe to change.
 
-_Also, I'm not saying there should be no tests against UI (such as with Espresso), only showing a way to enable TDD. I will write about balance between tests against UI and against ViewModel in a separate article._
+And all experienced teams know how much time can be saved avoiding that extra coordination.
 
+#### Testing becomes much easier
 
-- **Conforms to the Reactive Programming**
+Testing on Android is still hard, also because launching instrumentation tests against UI is very slow. This seems to be a primary reason why many teams give up TDD or even doing testing at all.
 
-Benefits of this style are already explained elsewhere, so will skip that part.
+With the current solution, you can be testing against ViewModel instead. That would allow to run tests much faster (since no emulator is involved), thus enabling TDD.
+
+_Also, I'm not saying there should be no tests against UI. I will write about balance between tests against UI and against ViewModel in a separate article._
+
+#### Conforms to Reactive Programming
 
 To quote the definition:
 
 >In computing, reactive programming is a declarative programming paradigm concerned with data streams and the propagation of change.
 
-In the ViewModel sketch shown above each field is a data stream consumed either by view layout (which listens, for example, for location change) or by presentation code (which listens for button clicks).
+In the ViewModel code shown above each field is a data stream consumed either by view layout (listening, for example, for location change) or by presentation code (listening for button clicks).
 
-- **Conforms to the Clean Architecture**
+Thus, encapsulation of view layout is intact as view layout takes its own responsibility to wire up to streams of data and update itself accordingly.
 
-So far, community has become pretty receptive with the concept of the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html), however adoption of this idea is far from being high, especially concerning topic being discussed in this article.
+#### Conforms to Clean Architecture
 
-Short recap: presentation code (sitting at "Interface Adapters") and view layout code (at "External Interfaces") belong to different layers. And according to the Dependency Rule, dependencies can only point inwards, which means presentation code _must not_ depend on view layout.
+For example, [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) says presentation code (sitting at the "Interface Adapters" circle) and view layout code (at "External Interfaces") belong to different layers. And according to the Dependency rule, dependencies can only point inwards, meaning that presentation code _must not_ depend on view layout, because "Interface Adapters" can't depend on "External Interfaces".
 
-And `findViewById()` joyfully breaks that rule, forcing inner layer to be coupled to an outer one.
+This statement does not hold when using `findViewById()`, and the ViewModel pattern fixes that.
 
-By using ViewModel, we fix that problem: now view layout depends on ViewModel, which is perfectly fine as ViewModel sits at more inner circle.
+Also, the current solution conforms to other important rules: "Independent of Frameworks", "Testable", "Independent of UI".
 
-- **Step towards reusing code across different platforms**
+#### Step towards reusing code across different platforms
 
-To quote a relevant feature of the Clean Architecture:
+To quote Clean Architecture:
 
 >Independent of UI. The UI can change easily, without changing the rest of the system. A Web UI could be replaced with a console UI, for example, without changing the business rules.
 
-We want to be independent of UI not because we are such purists and snobs willing to make an extra effort to support a "console UI" (which will never be needed).
+We want to be independent of UI not because we want to make a random extra effort.
 
-But we are practicists who wants to reuse code which is already there. So we have our ViewModels written in Kotlin, and with aid of Kotlin/Native we can use them for mobile web and iOS.
+Instead, we want to leverage reusability because UI-independent and platform-independent code can be shared (Kotlin/Native has already been heading in that direction). I'll be writing about this topic in upcoming articles.
 
-But this is a big topic, no more details here -- there will be articles on how to make ViewModels really independent of framework and reusable.
+## Summary
 
-- less recompilation cycles
-
-## Summary / recap
-
-In this article, we used `findViewById()` as an occasion to dive deeper in a world of Clean Architecture and Separation Of Concerns. You've seen how many problems `findViewById()` brings and how it is an obstacle to Clean Architecture. To solve this, the ViewModel pattern was exampled. We've also seen how many benefits this kind of decoupling brings and how it frees our hands. In next articles journey to real Clean Architecture and real Separation of Concerns will be continued. See the next article about the ViewModel.
+We highlighted problems brought by usage of `findViewById()` and found a solution to mitigate those. We also saw how scalable the solution is and how it conforms to Clean Architecture and Separation Of Concerns.
