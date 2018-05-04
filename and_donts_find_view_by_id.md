@@ -1,4 +1,4 @@
-Android Don't: please finally abandon `findViewById()` and its pals as it breaches encapsulation
+Android Don'ts: please abandon `findViewById()` and its pals as it breaches encapsulation
 =======
 
 >TL;DR Manipulating widgets directly is a bad habit as it breaches encapsulation and creates a tight coupling between presentation code and view layout declaration. Consider using the ViewModel pattern instead, backed by the Android Data Binding library.
