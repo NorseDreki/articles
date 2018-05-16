@@ -1,7 +1,7 @@
 Android DOs: Data Binding adapters is a good place for custom view logic
 =======
 
-> TL;DR Custom view logic is present in almost any app, and [Android Data Binding adapter]() is a better place for it rather than `Activity`, `Fragment`, etc., because it helps to decouple application code from framework glue code.
+> TL;DR Custom view logic is present in almost any app, and Android Data Binding adapter is a better place for it rather than `Activity`, `Fragment`, etc., because it helps to decouple application code from framework glue code.
 
 Android Data Binding is a truly great library: not only does it simplify use of the ViewModel pattern on Android, but also has ["binding adapters"](https://developer.android.com/topic/libraries/data-binding/binding-adapters), which allows to execute custom view logic around Android widgets.
 
