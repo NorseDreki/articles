@@ -1,6 +1,7 @@
 Android: criticism of Anko layout DSL
 =======
 
+
 > TL;DR View layout and presentation logic are two **strictly separate** concerns which evolve independently thus they must be kept separate in your code base.
 
 Even though Anko is a very good library overall, facilitating Android developers' lives and showcasing Kotlin language features (such as type-safe DSL builders for the case of Anko layouts), the idea to mix view layout with presentation logic doesn't seem right.
