@@ -1,3 +1,8 @@
+---
+title: "Android DOs: Data Binding adapters is a good place for custom view logic"
+date: 2019-05-21T16:04:10+03:00
+draft: false
+---
 Android DOs: Data Binding adapters is a good place for custom view logic
 =======
 

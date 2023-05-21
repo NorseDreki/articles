@@ -1,3 +1,9 @@
+---
+title: "Android Don'ts: please abandon `findViewById()` and its pals as it breaches encapsulation"
+date: 2022-05-21T16:04:10+03:00
+draft: false
+---
+
 Android Don'ts: please abandon `findViewById()` and its pals as it breaches encapsulation
 =======
 
