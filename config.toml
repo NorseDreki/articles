@@ -1,4 +1,4 @@
-baseURL = 'http://example.org/'
+baseURL = 'http://frabjous-eclair-d8d124.netlify.app/'
 languageCode = 'en-us'
 title = 'Norse Dreki notes'
 theme = "PaperMod"
